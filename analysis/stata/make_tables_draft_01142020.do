@@ -47,8 +47,9 @@ foreach x in roc precision brier_score r2 {
 	disp "``x''"		
 }
 
-/** Stuff From Andreas **/
 local model_sub "p2c"
+insheet using "`output_path'/PD_p1_p2c.csv", comma clear names
+save "`output_path'/PD_p1_p2c.dta", replace
 use "`output_path'/PD_p1_p2c.dta", clear
 gen v1 = n - 1
 merge 1:1 v1 using  "`output_path'/data_base.dta"
@@ -150,7 +151,8 @@ foreach x in roc precision brier_score r2 {
 		local `x'_`model_sub' = string(100*(`_`x'_rf' - ``x'_`model_sub'')/``x'_`model_sub'', "%9.2f")
 		}
 }
-/** Andreas Race interaction model 1**/
+
+
 local model_sub "racint2"
 use "`output_path'/PD_raceint.dta", clear
 gen v1 = n - 1
@@ -178,7 +180,7 @@ foreach x in roc precision brier_score r2 {
 		}
 }
 
-/** Andreas Race interaction model 1**/
+
 /** each race run separately **/
 local model_sub "racint3"
 use "`output_path'/PD_racesepmodels.dta", clear
