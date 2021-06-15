@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>README.html</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+
+</head>
+
+<body>
+
+<h1 id="document-for-replicating-predictably-unequal-the-effects-of-machine-learning-on-credit-markets">Document for Replicating “Predictably Unequal? The Effects of Machine Learning on Credit Markets”</h1>
+<p>The structure of this document first outlines where the output of each exhibit in the paper is constructed. These exihibits are constructed from a main analysis file, <code>all_vals_race1_interestrate1.csv.</code> However, we cannot provide this file, as it is proprietary data. As a result, we provide a simulated version of the dataset to allow execution of the code.</p>
+<p>At the end of the document in the Clean Data section, we list the relevant code and files necessary to run to generate <code>all_vals_race1_interestrate1.csv</code> from the Federal Reserve databases.</p>
+<h2 id="exhibits-in-paper.">Exhibits in Paper.</h2>
+<p>See discussion below for each program’s relevant inputs and outputs</p>
+<h3 id="main-draft">Main Draft</h3>
+<ol type="1">
+<li>TABLE I - Descriptive Stats
+<ul>
+<li><code>descriptive_stats.do</code></li>
+</ul></li>
+<li>FIGURE 3 - ROC and Precision-Recall Curves
+<ul>
+<li>Constructed in <code>run_estimation_programs.py</code></li>
+</ul></li>
+<li>TABLE III - Output of different models
+<ul>
+<li>Estimated in <code>run_estimation_programs.py</code> and converted into a table using <code>make_tables_draft_01142020.do</code></li>
+</ul></li>
+<li>TABLE IV - Output of different models predicting race
+<ul>
+<li>Estimated in <code>run_estimation_programs.py</code> and converted into a table using <code>make_tables_draft_01142020.do</code></li>
+</ul></li>
+<li>FIGURE IV - Example of Predicted Default Probabilities
+<ul>
+<li>Uses model from <code>run_estimation_programs.py</code> and constructed in <code>replicate_fig4_fig5_tabVI.ipynb</code></li>
+</ul></li>
+<li>FIGURE V - Comparison of Predicted Default Probabilities Across Models, by Race Groups
+<ul>
+<li>Uses model from <code>run_estimation_programs.py</code> and constructed in <code>replicate_fig4_fig5_tabVI.ipynb</code></li>
+</ul></li>
+<li>TABLE VI - Decomposition of Performance Improvement
+<ul>
+<li>uses model from <code>run_estimation_programs.py</code> and constructed in <code>make_tables_draft_01142020.do</code></li>
+</ul></li>
+<li>TABLE VII - Equilibrium Outcomes
+<ul>
+<li>uses model from <code>run_estimation_programs.py</code> and constructed in <code>replicate_tabVII.ipynb</code></li>
+</ul></li>
+</ol>
+<h3 id="internet-appendix">Internet Appendix</h3>
+<ol start="9" type="1">
+<li><p>Figure IA.2 Calibration Curve</p>
+<ul>
+<li>Construct in <code>run_estimation_programs.py</code></li>
+</ul></li>
+<li><p>Table IA.II Descriptive Statistics, GSE, Full Documentation Originations.</p>
+<ul>
+<li>Constructed in <code>descriptive_stats.do</code></li>
+</ul></li>
+<li><p>Table IA.III Residual Variation in SATO, comparing Full and Equilibrium samples.</p>
+<ul>
+<li>Constructed in <code>descriptive_stats.do</code></li>
+</ul></li>
+<li><p>Table IA.IV. Decomposition of Equilibrium Effects</p></li>
+<li><p>Figure IA.3 Comparison of Predicted Default Probabilities — XGBoost vs. Nonlinear Logit</p>
+<ul>
+<li>This output is constructed using <code>xg_boost.R</code> The output is then fed back into <code>run_estimation_programs.py</code></li>
+</ul></li>
+<li><p>Figure IA.4. Residual interest rate variation.</p>
+<ul>
+<li>This Figure is constructed using the output in Table IA.4</li>
+</ul></li>
+<li><p>Figure IA.5. Comparison of Equilibrium Interest Rates</p></li>
+<li><p>Table IA.V. Equilibrium Effects Under Alternative Approach</p></li>
+<li><p>Figure IA.6. Bootstrap Estimates of Differences in Statistics</p>
+<ul>
+<li>Construct in <code>run_estimation_programs.py</code> – WARNING: this takes a very long time to run.</li>
+</ul></li>
+</ol>
+<hr />
+<h2 id="estimation-code">Estimation Code</h2>
+<p>** Analyze Results</p>
+<p>** Summary Stats – descriptive_stats.do This do-file creates Table 1, Table IA.II, and Table IA.III of “Predictably Unequal?”</p>
+<p>** Python Estimation Code</p>
+<ul>
+<li>run_estimation_programs.py – Input data: 1.sato_varnames_race%d.csv, %d = race 2.all_vals_race1_interestrate1.csv (this is the raw data from HMDA/LPS link)</li>
+</ul>
+<p>This Python code runs programs from <code>estimation_programs.py</code>. It produces a significant amount of output in the output/ folder. [The path is hardcoded, so make sure you have an output folder available.]</p>
+<p>Importantly, this code has a number of very slow programs (estimation, especially with bootstrapping). Ideally, you only need to run these once, and then they are pickled.</p>
+<ul>
+<li>replicate_fig4_fig5_tabVI.ipynb</li>
+<li>replicate_tabVII.ipynb – Input data for both: 1.sato_varnames_race%d.csv, %d = race 2.all_vals_race1_interestrate1.csv all_vals_race0_interestrate1.csv<br />
+(this is the raw data from HMDA/LPS link) 3.predictions_race0_interestrate0.csv
+<ul>
+<li>Predicted defaults from models 4.%s_race0_interestrate1.pkl, %s = model name (Logit, LogitNonlinear, RandomForestIsotonic)</li>
+<li>Pickled models from estimation 5.%s_race0_interestrate0.pkl, %s = model name (Logit, LogitNonlinear, RandomForestIsotonic)</li>
+<li>Pickled models from estimation</li>
+</ul></li>
+</ul>
+<p>** Stata Code – make_tables_draft_01142020.do – make_bootstrap_se.do – brier_score_decomp.do – logits_nov2019.do</p>
+<h2 id="clean-data">Clean Data</h2>
+<p>** Prep data – data_pull_clean.do (at Fed) –</p>
+
+</body>
+</html>
