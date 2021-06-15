@@ -1,3 +1,6 @@
 *.csv filter=lfs diff=lfs merge=lfs -text
 *.dta filter=lfs diff=lfs merge=lfs -text
+<<<<<<< HEAD
 *.zip filter=lfs diff=lfs merge=lfs -text
+=======
+>>>>>>> c95f2b6becb7fc29fd5a5aae4bd4d061ba2d8a42
