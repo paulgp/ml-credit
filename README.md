@@ -1,6 +1,8 @@
 
 # Document for Replicating "Predictably Unequal? The Effects of Machine Learning on Credit Markets"
 
+This code repo holds code (and synthetic data) for [Predictably Unequal? The Effects of Machine Learning on Credit Markets](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3072038). 
+
 The structure of this document first outlines where the output of each exhibit in the paper is constructed. These exihibits are constructed from a main analysis file, ``all_vals_race1_interestrate1.csv.`` However, we cannot provide this file, as it is proprietary data. As a result, we provide a simulated version of the dataset to allow execution of the code. 
 
 At the end of the document in the Clean Data section, we list the relevant code and files necessary to run to generate ``all_vals_race1_interestrate1.csv`` from the Federal Reserve databases.
